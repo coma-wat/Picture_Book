@@ -1,0 +1,11 @@
+D:\Source\Picture_Book\Picture_Book\obj\Debug\Picture_Book.csproj.AssemblyReference.cache
+D:\Source\Picture_Book\Picture_Book\obj\Debug\Picture_Book.csproj.CoreCompileInputs.cache
+D:\Source\Picture_Book\Picture_Book\obj\Debug\Picture_Book.exe
+D:\Source\Picture_Book\Picture_Book\obj\Debug\Picture_Book.pdb
+D:\Source\Picture_Book\Picture_Book.exe.config
+D:\Source\Picture_Book\Picture_Book.exe
+D:\Source\Picture_Book\Picture_Book.pdb
+D:\Source\Picture_Book\Debug\Picture_Book.exe.config
+D:\Source\Picture_Book\Debug\Picture_Book.exe
+D:\Source\Picture_Book\Debug\Picture_Book.pdb
+D:\Source\Picture_Book\Picture_Book\obj\Debug\Picture_Book.csproj.CopyComplete

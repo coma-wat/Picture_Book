@@ -1,0 +1,8 @@
+D:\Source\Picture_Book\Release\Picture_Book.exe.config
+D:\Source\Picture_Book\Release\Picture_Book.exe
+D:\Source\Picture_Book\Release\Picture_Book.pdb
+D:\Source\Picture_Book\Picture_Book\obj\Release\Picture_Book.csproj.AssemblyReference.cache
+D:\Source\Picture_Book\Picture_Book\obj\Release\Picture_Book.csproj.CoreCompileInputs.cache
+D:\Source\Picture_Book\Picture_Book\obj\Release\Picture_Book.csproj.CopyComplete
+D:\Source\Picture_Book\Picture_Book\obj\Release\Picture_Book.exe
+D:\Source\Picture_Book\Picture_Book\obj\Release\Picture_Book.pdb
