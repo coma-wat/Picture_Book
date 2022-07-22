@@ -179,18 +179,17 @@ namespace Picture_Book
                             case "":            // Form1 で「データ追加」(引数にIDがない)を選択したときの処理
                                 try
                                 {
-                                    try
+                                    cmd.CommandText = "SELECT MIN(id) AS id FROM base_info";
+                                    SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
+                                    da.Fill(dt1);
+                                    if (dt1.Rows[0][0] != DBNull.Value)
                                     {
+                                        dt1.Clear();
                                         cmd.CommandText = "SELECT MIN(id + 1) AS id " +
                                                             "FROM base_info " +
                                                             "WHERE (id + 1) NOT IN (SELECT id FROM base_info)";
-                                        SQLiteDataAdapter da = new SQLiteDataAdapter(cmd);
                                         da.Fill(dt1);
                                         newId = Convert.ToInt32(dt1.Rows[0][0]);
-                                    }
-                                    catch
-                                    {
-                                        
                                     }
 
                                     DialogResult dr = MessageBox.Show($"「{tb[1].Text}」 をデータベースに追加します。"
@@ -215,6 +214,8 @@ namespace Picture_Book
                                                             $@"'{picPath}')";
                                         cmd.ExecuteNonQuery();      // picture_info テーブルにデータを追加
 
+                                        Program.mainFormContext.MainForm = new Form1();
+                                        Program.mainFormContext.MainForm.Show();
                                         this.Close();
                                     }
                                 }
@@ -253,13 +254,14 @@ namespace Picture_Book
                                                             $"WHERE id = '{Convert.ToInt32(tb[0].Text)}'";
                                         cmd.ExecuteNonQuery();
 
+                                        Program.mainFormContext.MainForm = new Form1();
+                                        Program.mainFormContext.MainForm.Show();
                                         this.Close();
                                     }
                                 }
                                 catch(SQLiteException ex)
                                 {
                                     MessageBox.Show(ex.Message);
-                                    MessageBox.Show(picPath);
                                 }
                                 break;
                         }
@@ -293,6 +295,9 @@ namespace Picture_Book
                                 cmd.CommandText = $"DELETE FROM base_info WHERE id = {Convert.ToInt32(tb[0].Text)}";
                                 cmd.ExecuteNonQuery();
                                 MessageBox.Show("削除しました。");
+
+                                Program.mainFormContext.MainForm = new Form1();
+                                Program.mainFormContext.MainForm.Show();
                                 this.Close();
                             }
                         }catch(SQLiteException ex)
@@ -304,6 +309,8 @@ namespace Picture_Book
             }
             else if(sender == bt[2])        // 「キャンセル」ボタンの処理
             {
+                Program.mainFormContext.MainForm = new Form1();
+                Program.mainFormContext.MainForm.Show();
                 this.Close();
             }
         }

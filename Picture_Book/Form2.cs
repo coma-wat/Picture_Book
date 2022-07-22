@@ -14,8 +14,7 @@ namespace Picture_Book
     {
         int id;
         string picPath = "";
-        DataSet ds;
-        DataTable dt;
+        DataTable dt1, dt2;
         DataControl dc;
         PictureBox pb;
         Button[] bt = new Button[2];
@@ -30,15 +29,14 @@ namespace Picture_Book
 
             id = _id;
 
-            ds = new DataSet();
-
-            dt = new DataTable();
-            ds.Tables.Add(dt);
-
+            dt1 = new DataTable();
+            dt2 = new DataTable();
             dc = new DataControl();
-            dc.DataRead(dt);
-            DataRow[] dr = dt.Select($"ID = {id}");
-            int index = dt.Rows.IndexOf(dr[0]);
+            dc.DataRead(dt1);
+            dc.PictureDataRead(dt2);
+            DataRow[] dr = dt1.Select($"ID = {id}");
+            int index = dt1.Rows.IndexOf(dr[0]);
+            picPath = dc.GetImageFilePath(dt2, id);
 
             for (int i = 0; i < bt.Length; i++)
             {
@@ -52,8 +50,7 @@ namespace Picture_Book
             pb.Width = this.Width / 2; pb.Height = pb.Width / 4 * 3;
             pb.Location = new Point(20, bt[0].Bottom + 30);
             pb.SizeMode = PictureBoxSizeMode.Zoom;
-
-            pb.Image = Image.FromFile(@"Pictures/カタクリ(白花)04.JPG");      // 後で削除
+            pb.Image = Image.FromFile(picPath);
 
             for(int i = 0; i < lb1.Length; i++)
             {
@@ -75,14 +72,14 @@ namespace Picture_Book
                 lb2[i].Location = i == 0 ? new Point(lb1[0].Right, lb1[i].Top) : new Point(lb2[i - 1].Left, lb1[i].Top);
                 lb2[i].AutoSize = false;
                 lb2[i].Width = 220;
-                lb2[i].Text = dt.Rows[index][i].ToString();
+                lb2[i].Text = dt1.Rows[index][i].ToString();
             }
             lb2[5].Height = 70;
             lb2[6] = new Label();
             lb2[6].Location = new Point(pb.Left, lb2[5].Bottom + 30);
             lb2[6].AutoSize = false;
             lb2[6].Width = this.Width - 60; lb2[6].Height = this.Height / 3;
-            lb2[6].Text = dt.Rows[index][6].ToString();
+            lb2[6].Text = dt1.Rows[index][6].ToString();
 
             for (int i = 0; i < bt.Length; i++)
             {
@@ -107,12 +104,14 @@ namespace Picture_Book
         {
             if(sender == bt[0])
             {
-                Form3 fm3 = new Form3(id);
-                fm3.Show();
+                Program.mainFormContext.MainForm = new Form3(id);
+                Program.mainFormContext.MainForm.Show();
                 this.Close();
             }
             else if(sender == bt[1])
             {
+                Program.mainFormContext.MainForm = new Form1();
+                Program.mainFormContext.MainForm.Show();
                 this.Close();
             }
         }
