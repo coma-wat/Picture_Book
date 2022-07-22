@@ -20,8 +20,6 @@ namespace Picture_Book
         DataControl dc;                     // 自作した DataControl クラス
         DataGridView dgv;
         Button updateBt;                    // 「更新」ボタン
-        Form2 fm2;
-        Form3 fm3;
 
         public Form1()
         {
@@ -74,6 +72,10 @@ namespace Picture_Book
             dc = new DataControl();         // データベースファイル操作用のクラスインスタンス
             dc.DataGridViewRead(dt);        // データグリッドビュー用のデータを data.db から dt に読み込む
             ColumnNameChange(dt);           // datatable のカラム名(列名)を日本語に変更
+            if(dt.Rows.Count == 0)
+            {
+                bt[1].Enabled = false;
+            }
 
             dgv = new DataGridView();
             dgv.Location = new Point(30, bt[0].Bottom + 20);
@@ -85,7 +87,8 @@ namespace Picture_Book
             dgv.DataSource = dt;
 
             updateBt = new Button();
-            updateBt.Text = "更新";
+            updateBt.Width = 100;
+            updateBt.Text = "全データ表示";
             updateBt.Location = new Point(this.Width / 2 - updateBt.Width / 2, dgv.Bottom + 10);
 
             topLb.Parent = this;
@@ -153,13 +156,15 @@ namespace Picture_Book
             else if(sender == bt[1])            // 「編集」ボタンの処理
             {
                 int id = int.Parse(dgv[0, dgv.CurrentCell.RowIndex].Value.ToString());
-                fm3 = new Form3(id);
-                fm3.Show();
+                Program.mainFormContext.MainForm = new Form3(id);
+                Program.mainFormContext.MainForm.Show();
+                this.Close();
             }
             else if(sender == bt[2])            // 「データ追加」ボタンの処理
             {
-                fm3 = new Form3();
-                fm3.Show();
+                Program.mainFormContext.MainForm = new Form3();
+                Program.mainFormContext.MainForm.Show();
+                this.Close();
             }
             else if(sender == updateBt)         // 「更新」ボタンの処理
             {
@@ -168,6 +173,10 @@ namespace Picture_Book
                 dc.DataGridViewRead(dt);
                 ColumnNameChange(dt);
                 dgv.DataSource = dt;
+                for(int i = 0; i < tb.Length; i++)
+                {
+                    tb[i].Clear();
+                }
             }
         }
 
@@ -177,8 +186,9 @@ namespace Picture_Book
             try
             {
                 int id = int.Parse(dgv[0, dgv.CurrentCell.RowIndex].Value.ToString());
-                fm2 = new Form2(id);
-                fm2.Show();
+                Program.mainFormContext.MainForm = new Form2(id);
+                Program.mainFormContext.MainForm.Show();
+                this.Close();
             }
             catch(Exception ex)
             {
@@ -198,17 +208,18 @@ namespace Picture_Book
                                         .Where(i => i["科名"].ToString().Contains(tb[0].Text)
                                         && i["属名"].ToString().Contains(tb[1].Text)
                                         && i["植物名"].ToString().Contains(tb[2].Text))
-                                        .Where(i => i["科名"].ToString().Contains(tb[3].Text)
+                                        .Where(i => i["植物名"].ToString().Contains(tb[3].Text)
+                                        || i["学名"].ToString().Contains(tb[3].Text)
+                                        || i["科名"].ToString().Contains(tb[3].Text)
                                         || i["属名"].ToString().Contains(tb[3].Text)
-                                        || i["植物名"].ToString().Contains(tb[3].Text)
                                         || i["自生環境"].ToString().Contains(tb[3].Text)
                                         || i["説明"].ToString().Contains(tb[3].Text))
                                         .CopyToDataTable();
                 dgv.DataSource = result;
             }
-            catch(Exception ex)
+            catch
             {
-                MessageBox.Show(ex.Message);
+
             }
         }
     }

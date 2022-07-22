@@ -12,12 +12,15 @@ namespace Picture_Book
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
-      
+
+        public static ApplicationContext mainFormContext;
+
         [STAThread]
         public static void Main(string[] args)
         {
-            Form1 fm1 = new Form1();
-            Application.Run(fm1);
+            mainFormContext = new ApplicationContext();
+            mainFormContext.MainForm = new Form1();
+            Application.Run(mainFormContext);
         }
     }
 }
